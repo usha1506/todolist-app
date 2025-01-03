@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./TodoList.css";
 
 const Todolist = () => {
@@ -10,6 +10,17 @@ const Todolist = () => {
   const [currentTask, setCurrentTask] = useState("");
   const [currentPriority, setCurrentPriority] = useState("low");
   const [currentDueDate, setCurrentDueDate] = useState("");
+
+  useEffect(() => {
+    const savedTasks = JSON.parse(localStorage.getItem("tasks"));
+    if (savedTasks) {
+      setTasks(savedTasks);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const addTask = () => {
     if (newTask.trim() !== "") {
