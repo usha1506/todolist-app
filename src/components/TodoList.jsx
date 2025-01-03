@@ -4,6 +4,8 @@ import "./TodoList.css";
 const Todolist = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
+  const [isEditing, setIsEditing] = useState(null);
+  const [currentTask, setCurrentTask] = useState("");
 
   const addTask = () => {
     if (newTask.trim() !== "") {
@@ -15,6 +17,20 @@ const Todolist = () => {
   const deleteTask = (index) => {
     const newTasks = tasks.filter((task, taskIndex) => taskIndex !== index);
     setTasks(newTasks);
+  };
+
+  const editTask = (index) => {
+    setIsEditing(index);
+    setCurrentTask(tasks[index]);
+  };
+
+  const saveTask = (index) => {
+    const newTasks = tasks.map((task, taskIndex) =>
+      taskIndex === index ? currentTask : task
+    );
+    setTasks(newTasks);
+    setIsEditing(null);
+    setCurrentTask("");
   };
 
   return (
@@ -32,7 +48,21 @@ const Todolist = () => {
         {tasks.map((task, index) => (
           <li key={index} className="task-item">
             <input type="checkbox" className="task-checkbox" />
-            {task} <button onClick={() => deleteTask(index)}>Delete</button>
+            {isEditing === index ? (
+              <input
+                type="text"
+                value={currentTask}
+                onChange={(e) => setCurrentTask(e.target.value)}
+              />
+            ) : (
+              task
+            )}
+            {isEditing === index ? (
+              <button onClick={() => saveTask(index)}>Save</button>
+            ) : (
+              <button onClick={() => editTask(index)}>Edit</button>
+            )}
+            <button onClick={() => deleteTask(index)}>Delete</button>
           </li>
         ))}
       </ul>
