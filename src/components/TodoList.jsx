@@ -27,6 +27,7 @@ const Todolist = () => {
         placeholder="Add a new task"
       />
       <button onClick={addTask}>Add Task</button>
+      <p>Total Tasks: {tasks.length}</p>
       <ul className="task-list">
         {tasks.map((task, index) => (
           <li key={index} className="task-item">
