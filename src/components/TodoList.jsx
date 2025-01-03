@@ -5,15 +5,21 @@ const Todolist = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [newPriority, setNewPriority] = useState("low");
+  const [newDueDate, setNewDueDate] = useState("");
   const [isEditing, setIsEditing] = useState(null);
   const [currentTask, setCurrentTask] = useState("");
   const [currentPriority, setCurrentPriority] = useState("low");
+  const [currentDueDate, setCurrentDueDate] = useState("");
 
   const addTask = () => {
     if (newTask.trim() !== "") {
-      setTasks([...tasks, { text: newTask, priority: newPriority }]);
+      setTasks([
+        ...tasks,
+        { text: newTask, priority: newPriority, dueDate: newDueDate },
+      ]);
       setNewTask("");
       setNewPriority("low");
+      setNewDueDate("");
     }
   };
 
@@ -26,18 +32,24 @@ const Todolist = () => {
     setIsEditing(index);
     setCurrentTask(tasks[index].text);
     setCurrentPriority(tasks[index].priority);
+    setCurrentDueDate(tasks[index].dueDate);
   };
 
   const saveTask = (index) => {
     const newTasks = tasks.map((task, taskIndex) =>
       taskIndex === index
-        ? { text: currentTask, priority: currentPriority }
+        ? {
+            text: currentTask,
+            priority: currentPriority,
+            dueDate: currentDueDate,
+          }
         : task
     );
     setTasks(newTasks);
     setIsEditing(null);
     setCurrentTask("");
     setCurrentPriority("low");
+    setCurrentDueDate("");
   };
 
   return (
@@ -57,6 +69,12 @@ const Todolist = () => {
         <option value="medium">Medium</option>
         <option value="high">High</option>
       </select>
+      <input
+        type="date"
+        value={newDueDate}
+        onChange={(e) => setNewDueDate(e.target.value)}
+        placeholder="Due Date"
+      />
       <button onClick={addTask}>Add Task</button>
       <p>Total Tasks: {tasks.length}</p>
       <ul className="task-list">
@@ -78,6 +96,11 @@ const Todolist = () => {
                   <option value="medium">Medium</option>
                   <option value="high">High</option>
                 </select>
+                <input
+                  type="date"
+                  value={currentDueDate}
+                  onChange={(e) => setCurrentDueDate(e.target.value)}
+                />
                 <button onClick={() => saveTask(index)}>Save</button>
               </>
             ) : (
@@ -86,6 +109,7 @@ const Todolist = () => {
                 <span className={`priority ${task.priority}`}>
                   {task.priority}
                 </span>
+                <span className="due-date">{task.dueDate}</span>
                 <button onClick={() => editTask(index)}>Edit</button>
               </>
             )}
