@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import "./TodoList.css";
 
-const TodoList = () => {
+const Todolist = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
 
   const addTask = () => {
-    if (newTask.trim() === "") return;
-    setTasks([...tasks, newTask]);
-    setNewTask("");
+    if (newTask.trim() !== "") {
+      setTasks([...tasks, newTask]);
+      setNewTask("");
+    }
   };
 
-  const removeTask = (index) => {
-    setTasks(tasks.filter((_, i) => i !== index));
+  const deleteTask = (index) => {
+    const newTasks = tasks.filter((task, taskIndex) => taskIndex !== index);
+    setTasks(newTasks);
   };
 
   return (
@@ -24,11 +26,12 @@ const TodoList = () => {
         onChange={(e) => setNewTask(e.target.value)}
         placeholder="Add a new task"
       />
-      <button onClick={addTask}>Add</button>
-      <ul>
+      <button onClick={addTask}>Add Task</button>
+      <ul className="task-list">
         {tasks.map((task, index) => (
-          <li key={index}>
-            {task} <button onClick={() => removeTask(index)}>Delete</button>
+          <li key={index} className="task-item">
+            <input type="checkbox" className="task-checkbox" />
+            {task} <button onClick={() => deleteTask(index)}>Delete</button>
           </li>
         ))}
       </ul>
@@ -36,4 +39,4 @@ const TodoList = () => {
   );
 };
 
-export default TodoList;
+export default Todolist;

@@ -10,8 +10,8 @@ div {
   margin: 50px auto;
   padding: 20px;
   background-color: #ffffff;
-  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 8px; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   text-align: center;
 }
 
@@ -84,3 +84,16 @@ li button {
 li button:hover {
   background-color: #a71d2a;
 }
+
+.task-item {
+  display: flex;
+  align-items: center;
+}
+
+.task-checkbox {
+  margin-right: 10px;
+}
+
+/* Existing styles */
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+border-radius: 8px;
